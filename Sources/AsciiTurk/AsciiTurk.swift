@@ -10,7 +10,7 @@ struct Letter {
     var implicit: Bool
 }
 
-func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}") -> String {
+public func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}") -> String {
     var turkString = ""
     var backness: Backness? = nil
     var implicit = false
