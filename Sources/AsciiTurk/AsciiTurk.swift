@@ -10,14 +10,23 @@ struct Letter {
     var implicit: Bool
 }
 
-public func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}") -> String {
+public func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}", caseInsensitive: Bool = false, fricativeInsensitive: Bool = false) -> String {
+    var asciiString = asciiString
+    if caseInsensitive {
+        asciiString = asciiString.lowercased()
+    }
     var turkString = ""
     var backness: Backness? = nil
     var implicit = false
     var i = 0
     while i < asciiString.count {
         let asciiIndex = asciiString.index(asciiString.startIndex, offsetBy: i)
-        let asciiLetter = String(asciiString[asciiIndex])
+        var asciiLetter = String(asciiString[asciiIndex])
+        if fricativeInsensitive {
+            if let occlusiveLetter = asciiFricativeAsciiOcclusive[asciiLetter] {
+                asciiLetter = occlusiveLetter
+            }
+        }
         var spaceLetter = false
         if asciiLetter == String(spaceString) {
             if i + 1 < asciiString.count {
@@ -201,4 +210,10 @@ let asciiTurk = [
         front: "\u{10c45}",
         backness: nil,
         implicit: false)
+]
+
+let asciiFricativeAsciiOcclusive = [
+    "\u{00076}": "\u{00062}",
+    "\u{00068}": "\u{0006b}",
+    "\u{00066}": "\u{00070}",
 ]
