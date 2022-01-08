@@ -10,18 +10,18 @@ struct Letter {
     var implicit: Bool
 }
 
-public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020}", "\u{0002d}", "\u{0005f}"], caseInsensitive: Bool = false, fricativeInsensitive: Bool = false) -> String {
+public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020}", "\u{0002d}", "\u{0005f}"], caseInsensitive: Bool = true, fricativeInsensitive: Bool = true) -> String {
     var asciiString = asciiString
     if caseInsensitive {
         asciiString = asciiString.lowercased()
     }
     var turkString = ""
     var backness: Backness? = nil
+    var articulation: String? = nil
     var implicit = false
-    var i = 0
-    while i < asciiString.count {
-        let asciiIndex = asciiString.index(asciiString.startIndex, offsetBy: i)
-        var asciiLetter = String(asciiString[asciiIndex])
+    var space = false
+    for asciiInput in asciiString {
+        var asciiLetter = String(asciiInput)
         if fricativeInsensitive {
             if let occlusiveLetter = asciiFricativeAsciiOcclusive[asciiLetter] {
                 asciiLetter = occlusiveLetter
@@ -30,13 +30,9 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
         var spaceLetter = false
         for spaceString in spaceStrings {
             if asciiLetter == String(spaceString) {
-                if i + 1 < asciiString.count {
-                    let asciiIndex = asciiString.index(asciiString.startIndex, offsetBy: i + 1)
-                    let asciiLetter = String(asciiString[asciiIndex])
-                    if asciiLetter == String(spaceString) {
-                        if let turkLetter = asciiTurk["\u{00020}"] {
-                            turkString += turkLetter.back
-                        }
+                if space {
+                    if let turkLetter = asciiTurk["\u{00020}"] {
+                        turkString += turkLetter.back
                     }
                 }
                 spaceLetter = true
@@ -44,6 +40,13 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
         }
         if spaceLetter {
             backness = nil
+            articulation = nil
+            implicit = false
+            if space {
+                space = false
+            } else {
+                space = true
+            }
             turkString += ""
         } else if let turkLetter = asciiTurk[asciiLetter] {
             if let newBackness = turkLetter.backness {
@@ -52,19 +55,30 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
                     implicit = turkLetter.implicit
                 }
             }
-            if backness == nil {
-                var j = i + 1
-                while j < asciiString.count {
-                    let asciiIndex = asciiString.index(asciiString.startIndex, offsetBy: j)
-                    let asciiLetter = String(asciiString[asciiIndex])
-                    if let turkLetter = asciiTurk[asciiLetter] {
-                        if turkLetter.backness != nil {
-                            backness = turkLetter.backness
-                            implicit = turkLetter.implicit
-                            break
-                        }
+            switch backness {
+            case nil:
+                if turkLetter.backness == nil {
+                    articulation = asciiLetter
+                }
+            case .back:
+                switch articulation {
+                case nil:
+                    turkString += ""
+                case .some(let articulationValue):
+                    if let articulationLetter = asciiTurk[articulationValue] {
+                        turkString += articulationLetter.back
+                        articulation = nil
                     }
-                    j += 1
+                }
+            case .front:
+                switch articulation {
+                case nil:
+                    turkString += ""
+                case .some(let articulationValue):
+                    if let articulationLetter = asciiTurk[articulationValue] {
+                        turkString += articulationLetter.front
+                        articulation = nil
+                    }
                 }
             }
             if !(turkLetter.implicit && implicit) {
@@ -81,7 +95,6 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
                 implicit = false
             }
         }
-        i += 1
     }
     return turkString
 }
