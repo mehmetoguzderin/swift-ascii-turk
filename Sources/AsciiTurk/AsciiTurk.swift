@@ -10,7 +10,7 @@ struct Letter {
     var implicit: Bool
 }
 
-public func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}", caseInsensitive: Bool = false, fricativeInsensitive: Bool = false) -> String {
+public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020}", "\u{0002d}", "\u{0005f}"], caseInsensitive: Bool = false, fricativeInsensitive: Bool = false) -> String {
     var asciiString = asciiString
     if caseInsensitive {
         asciiString = asciiString.lowercased()
@@ -28,17 +28,19 @@ public func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}", 
             }
         }
         var spaceLetter = false
-        if asciiLetter == String(spaceString) {
-            if i + 1 < asciiString.count {
-                let asciiIndex = asciiString.index(asciiString.startIndex, offsetBy: i + 1)
-                let asciiLetter = String(asciiString[asciiIndex])
-                if asciiLetter == String(spaceString) {
-                    if let turkLetter = asciiTurk["\u{00020}\u{00020}"] {
-                        turkString += turkLetter.back
+        for spaceString in spaceStrings {
+            if asciiLetter == String(spaceString) {
+                if i + 1 < asciiString.count {
+                    let asciiIndex = asciiString.index(asciiString.startIndex, offsetBy: i + 1)
+                    let asciiLetter = String(asciiString[asciiIndex])
+                    if asciiLetter == String(spaceString) {
+                        if let turkLetter = asciiTurk["\u{00020}"] {
+                            turkString += turkLetter.back
+                        }
                     }
                 }
+                spaceLetter = true
             }
-            spaceLetter = true
         }
         if spaceLetter {
             backness = nil
@@ -85,12 +87,7 @@ public func asciiTurk(_ asciiString: String, spaceString: String = "\u{0005f}", 
 }
 
 let asciiTurk = [
-    "\u{00020}\u{00020}": Letter(
-        back: "\u{0003a}",
-        front: "\u{0003a}",
-        backness: nil,
-        implicit: false),
-    "\u{0005f}\u{0005f}": Letter(
+    "\u{00020}": Letter(
         back: "\u{0003a}",
         front: "\u{0003a}",
         backness: nil,
