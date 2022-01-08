@@ -94,6 +94,7 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
             if turkLetter.implicit {
                 implicit = false
             }
+            space = false
         }
     }
     return turkString
