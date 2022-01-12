@@ -100,6 +100,10 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
     return turkString
 }
 
+let asciiSpaceTurkSpace = [
+    "\u{00020}": "\u{0003a}",
+]
+
 let asciiTurk = [
     "\u{00061}": Letter(
         back: "\u{10c00}",
@@ -222,8 +226,4 @@ let asciiFricativeAsciiOcclusive = [
     "\u{00076}": "\u{00062}",
     "\u{00068}": "\u{0006b}",
     "\u{00066}": "\u{00070}",
-]
-
-let asciiSpaceTurkSpace = [
-    "\u{00020}": "\u{0003a}",
 ]
