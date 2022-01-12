@@ -10,7 +10,16 @@ struct Letter {
     var implicit: Bool
 }
 
-public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020}", "\u{0002D}", "\u{0005F}"], caseInsensitive: Bool = true, fricativeInsensitive: Bool = true) -> String {
+public func asciiTurk(
+    _ asciiString: String,
+    spaceStrings: [String] = [
+        "\u{00020}", // 00032
+        "\u{0002D}", // 00045
+        "\u{0005F}", // 00095
+    ],
+    caseInsensitive: Bool = true,
+    fricativeInsensitive: Bool = true,
+) -> String {
     var asciiString = asciiString
     if caseInsensitive {
         asciiString = asciiString.lowercased()
@@ -31,7 +40,7 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
         for spaceString in spaceStrings {
             if asciiLetter == String(spaceString) {
                 if space {
-                    if let turkLetter = asciiSpaceTurkSpace["\u{00020}"] {
+                    if let turkLetter = asciiSpaceTurkSpace["\u{00020}"] { // 00032
                         turkString += turkLetter
                     }
                 }
@@ -101,129 +110,133 @@ public func asciiTurk(_ asciiString: String, spaceStrings: [String] = ["\u{00020
 }
 
 let asciiSpaceTurkSpace = [
-    "\u{00020}": "\u{0003A}",
+    "\u{00020}": // 00032
+        "\u{0003A}", // 00058
 ]
 
 let asciiTurk = [
-    "\u{00061}": Letter(
-        back: "\u{10C00}",
-        front: "\u{10C00}",
+    "\u{00061}": Letter( // 00097
+        back: "\u{10C00}", // 68608
+        front: "\u{10C00}", // 68608
         backness: .back,
         implicit: true),
-    "\u{00065}": Letter(
-        back: "\u{10C00}",
-        front: "\u{10C00}",
+    "\u{00065}": Letter( // 00101
+        back: "\u{10C00}", // 68608
+        front: "\u{10C00}", // 68608
         backness: .front,
         implicit: true),
-    "\u{00077}": Letter(
-        back: "\u{10C03}",
-        front: "\u{10C03}",
+    "\u{00077}": Letter( // 00119
+        back: "\u{10C03}", // 68611
+        front: "\u{10C03}", // 68611
         backness: .back,
         implicit: false),
-    "\u{00069}": Letter(
-        back: "\u{10C03}",
-        front: "\u{10C03}",
+    "\u{00069}": Letter( // 00105
+        back: "\u{10C03}", // 68611
+        front: "\u{10C03}", // 68611
         backness: .front,
         implicit: false),
-    "\u{0006F}": Letter(
-        back: "\u{10C06}",
-        front: "\u{10C06}",
+    "\u{0006F}": Letter( // 00111
+        back: "\u{10C06}", // 68614
+        front: "\u{10C06}", // 68614
         backness: .back,
         implicit: false),
-    "\u{00075}": Letter(
-        back: "\u{10C07}",
-        front: "\u{10C07}",
+    "\u{00075}": Letter( // 00117
+        back: "\u{10C07}", // 68615
+        front: "\u{10C07}", // 68615
         backness: .front,
         implicit: false),
-    "\u{0006B}": Letter(
-        back: "\u{10C34}",
-        front: "\u{10C1A}",
+    "\u{0006B}": Letter( // 00107
+        back: "\u{10C34}", // 68660
+        front: "\u{10C1A}", // 68634
         backness: nil,
         implicit: false),
-    "\u{00067}": Letter(
-        back: "\u{10C0D}",
-        front: "\u{10C0F}",
+    "\u{00067}": Letter( // 00103
+        back: "\u{10C0D}", // 68621
+        front: "\u{10C0F}", // 68623
         backness: nil,
         implicit: false),
-    "\u{00063}": Letter(
-        back: "\u{10C32}",
-        front: "\u{10C32}",
+    "\u{00063}": Letter( // 00099
+        back: "\u{10C32}", // 68658
+        front: "\u{10C32}", // 68658
         backness: nil,
         implicit: false),
-    "\u{00074}": Letter(
-        back: "\u{10C43}",
-        front: "\u{10C45}",
+    "\u{00074}": Letter( // 00116
+        back: "\u{10C43}", // 68675
+        front: "\u{10C45}", // 68677
         backness: nil,
         implicit: false),
-    "\u{00064}": Letter(
-        back: "\u{10C11}",
-        front: "\u{10C13}",
+    "\u{00064}": Letter( // 00100
+        back: "\u{10C11}", // 68625
+        front: "\u{10C13}", // 68627
         backness: nil,
         implicit: false),
-    "\u{00070}": Letter(
-        back: "\u{10C2F}",
-        front: "\u{10C2F}",
+    "\u{00070}": Letter( // 00112
+        back: "\u{10C2F}", // 68655
+        front: "\u{10C2F}", // 68655
         backness: nil,
         implicit: false),
-    "\u{00062}": Letter(
-        back: "\u{10C09}",
-        front: "\u{10C0B}",
+    "\u{00062}": Letter( // 00098
+        back: "\u{10C09}", // 68617
+        front: "\u{10C0B}", // 68619
         backness: nil,
         implicit: false),
-    "\u{00078}": Letter(
-        back: "\u{10C41}",
-        front: "\u{10C40}",
+    "\u{00078}": Letter( // 00120
+        back: "\u{10C41}", // 68673
+        front: "\u{10C40}", // 68672
         backness: nil,
         implicit: false),
-    "\u{00073}": Letter(
-        back: "\u{10C3D}",
-        front: "\u{10C3E}",
+    "\u{00073}": Letter( // 00115
+        back: "\u{10C3D}", // 68669
+        front: "\u{10C3E}", // 68670
         backness: nil,
         implicit: false),
-    "\u{0007A}": Letter(
-        back: "\u{10C14}",
-        front: "\u{10C14}",
+    "\u{0007A}": Letter( // 00122
+        back: "\u{10C14}", // 68628
+        front: "\u{10C14}", // 68628
         backness: nil,
         implicit: false),
-    "\u{00071}": Letter(
-        back: "\u{10C2C}",
-        front: "\u{10C2D}",
+    "\u{00071}": Letter( // 00113
+        back: "\u{10C2C}", // 68652
+        front: "\u{10C2D}", // 68653
         backness: nil,
         implicit: false),
-    "\u{0006A}": Letter(
-        back: "\u{10C2A}",
-        front: "\u{10C2A}",
+    "\u{0006A}": Letter( // 00106
+        back: "\u{10C2A}", // 68650
+        front: "\u{10C2A}", // 68650
         backness: nil,
         implicit: false),
-    "\u{0006E}": Letter(
-        back: "\u{10C23}",
-        front: "\u{10C24}",
+    "\u{0006E}": Letter( // 00110
+        back: "\u{10C23}", // 68643
+        front: "\u{10C24}", // 68644
         backness: nil,
         implicit: false),
-    "\u{0006D}": Letter(
-        back: "\u{10C22}",
-        front: "\u{10C22}",
+    "\u{0006D}": Letter( // 00109
+        back: "\u{10C22}", // 68642
+        front: "\u{10C22}", // 68642
         backness: nil,
         implicit: false),
-    "\u{00072}": Letter(
-        back: "\u{10C3A}",
-        front: "\u{10C3C}",
+    "\u{00072}": Letter( // 00114
+        back: "\u{10C3A}", // 68666
+        front: "\u{10C3C}", // 68668
         backness: nil,
         implicit: false),
-    "\u{00079}": Letter(
-        back: "\u{10C16}",
-        front: "\u{10C18}",
+    "\u{00079}": Letter( // 00121
+        back: "\u{10C16}", // 68630
+        front: "\u{10C18}", // 68632
         backness: nil,
         implicit: false),
-    "\u{0006C}": Letter(
-        back: "\u{10C1E}",
-        front: "\u{10C20}",
+    "\u{0006C}": Letter( // 00108
+        back: "\u{10C1E}", // 68638
+        front: "\u{10C20}", // 68640
         backness: nil,
         implicit: false),
 ]
 
 let asciiFricativeAsciiOcclusive = [
-    "\u{00068}": "\u{0006B}",
-    "\u{00066}": "\u{00070}",
-    "\u{00076}": "\u{00062}",
+    "\u{00068}": // 00104
+        "\u{0006B}", // 00107
+    "\u{00066}": // 00102
+        "\u{00070}", // 00112
+    "\u{00076}": // 00118
+        "\u{00062}", // 00098
 ]
