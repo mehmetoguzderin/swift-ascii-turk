@@ -18,8 +18,7 @@ public func asciiTurk(
         "\u{0005F}", // 00095
     ],
     caseInsensitive: Bool = true,
-    fricativeInsensitive: Bool = true,
-) -> String {
+    fricativeInsensitive: Bool = true) -> String {
     var asciiString = asciiString
     if caseInsensitive {
         asciiString = asciiString.lowercased()
