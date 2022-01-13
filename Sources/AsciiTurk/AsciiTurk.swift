@@ -104,7 +104,7 @@ public func asciiTurk(
                 implicit = false
             }
             space = false
-        } else {
+        } else if passthrough {
             turkString += asciiLetter
         }
     }
