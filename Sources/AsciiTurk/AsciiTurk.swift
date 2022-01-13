@@ -18,7 +18,8 @@ public func asciiTurk(
         "\u{0005F}", // 00095
     ],
     caseInsensitive: Bool = true,
-    fricativeInsensitive: Bool = true) -> String {
+    fricativeInsensitive: Bool = true,
+    passthrough: Bool = false) -> String {
     var asciiString = asciiString
     if caseInsensitive {
         asciiString = asciiString.lowercased()
@@ -28,7 +29,7 @@ public func asciiTurk(
     var articulation: String? = nil
     var implicit = false
     var space = false
-    for asciiInput in asciiString {
+    for asciiInput in asciiString.unicodeScalars {
         var asciiLetter = String(asciiInput)
         if fricativeInsensitive {
             if let occlusiveLetter = asciiFricativeAsciiOcclusive[asciiLetter] {
@@ -103,6 +104,8 @@ public func asciiTurk(
                 implicit = false
             }
             space = false
+        } else {
+            turkString += asciiLetter
         }
     }
     return turkString
